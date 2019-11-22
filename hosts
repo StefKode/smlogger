@@ -1,2 +1,0 @@
-[hostgroup]
-host_base ansible_host=powerhead ansible_port=22
