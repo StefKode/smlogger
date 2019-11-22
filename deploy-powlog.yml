@@ -1,0 +1,36 @@
+- hosts: host_base
+  remote_user: pi
+
+  tasks:
+   - name: Load configuration variables
+     include_vars: config.yml
+
+   - name: User in dialout group
+     user:
+       name:  pi
+       group: dialout
+     become:  yes
+
+   - name: Need these packages
+     apt: name={{item}} state=present update_cache=false
+     with_items:
+       - git-core
+       - uuid-dev
+       - uuid-runtime
+
+   - name: Clone stable libsml
+     git:
+      repo: 'https://github.com/StefKode/libsml.git'
+      dest: /home/pi/libsml
+      version: stable
+     become: yes
+     become_user: pi 
+
+   - name: Build libsml
+     make:
+       chdir: /home/pi/libsml
+
+   - name: Install libsml
+     make:
+       target: install
+       chdir: /home/pi/libsml
