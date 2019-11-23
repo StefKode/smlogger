@@ -21,6 +21,7 @@
        - mosquitto
        - python3
        - python3-redis
+       - python3-paho-mqtt
 
    - name: Clone stable libsml
      git:

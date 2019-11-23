@@ -1,0 +1,4 @@
+{
+	"redis_server": "<your host>",
+	"mqtt_topic":   "powlog"
+}
