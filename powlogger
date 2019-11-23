@@ -2,6 +2,7 @@
 # vim: set expandtab ts=4:
 
 import paho.mqtt.client as mqtt
+from   datetime import datetime
 import json
 import sys
 
@@ -10,23 +11,70 @@ from rediscon import RedisCon
 from modules.configfile import ConfigFile
 
 print("Smart Meter Redis Logger")
-
-print("> Load Config File")
 try:
-    conf         = ConfigFile("smlogger.conf")
-    mqtt_topic   = conf.get_value("mqtt_topic")
-    redis_server = conf.get_value("redis_server")
+    conf          = ConfigFile("smlogger.conf")
+    mqtt_topic    = conf.get_value("mqtt_topic")
+    redis_server  = conf.get_value("redis_server")
+    redis_key     = conf.get_value("redis_key")
+    update_period = conf.get_value("update_period")
 except Exception as e:
     print(e)
     sys.exit(1)
 
-print(">> redis_server = " + str(redis_server))
-print(">> mqtt_topic   = " + str(mqtt_topic))
+print("Connect REDIS")
+red = RedisCon(host=redis_server, log_enabled=False, trx_log=False)
+red.setConMonInterval(5)
+red.connect()
 
-print("> Setup MQTT Client")
+
+def get_ts():
+    return int(datetime.now().timestamp())
+
+
+print("redis_server  = " + str(redis_server))
+print("mqtt_topic    = " + str(mqtt_topic))
+print("update_ṕeriod = " + str(update_period))
+val_window = [0] * 5
+ts = get_ts()
+
+
+def window_insert(v):
+    global val_window
+    size = len(val_window)
+
+    for i in range(0, size - 1):
+        val_window[i] = val_window[i + 1]
+
+    val_window[size - 1] = v
+
+
+def window_avg():
+    size = len(val_window)
+    avg  = 0
+    for i in range(0, size):
+        avg += val_window[i]
+    return int(avg / size)
+
+
+def update(data):
+    global p_cur_avg_sum
+    global p_cycle
+    global ts
+    p_cur = data['pmon']
+    p_tot = data['ptot']
+
+    window_insert(p_cur)
+    cur_ts = get_ts()
+
+    if (cur_ts - ts) >= update_period:
+        red.set(redis_key, window_avg())
+        ts = cur_ts
+
+
 def mqtt_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
     client.subscribe(mqtt_topic)
+
 
 def mqtt_message(client, userdata, msg):
     if (mqtt_topic == msg.topic):
@@ -36,8 +84,10 @@ def mqtt_message(client, userdata, msg):
             print("error json decode")
             print(str(msg.payload))
             return
-        print(data)
+        update(data)
 
+
+print("Connect MQTT")
 client = mqtt.Client()
 client.on_connect = mqtt_connect
 client.on_message = mqtt_message
