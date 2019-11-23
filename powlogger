@@ -1,0 +1,45 @@
+#!/usr/bin/python3
+# vim: set expandtab ts=4:
+
+import paho.mqtt.client as mqtt
+import json
+import sys
+
+sys.path.append("../rediscon")
+from rediscon import RedisCon
+from modules.configfile import ConfigFile
+
+print("Smart Meter Redis Logger")
+
+print("> Load Config File")
+try:
+    conf         = ConfigFile("smlogger.conf")
+    mqtt_topic   = conf.get_value("mqtt_topic")
+    redis_server = conf.get_value("redis_server")
+except Exception as e:
+    print(e)
+    sys.exit(1)
+
+print(">> redis_server = " + str(redis_server))
+print(">> mqtt_topic   = " + str(mqtt_topic))
+
+print("> Setup MQTT Client")
+def mqtt_connect(client, userdata, flags, rc):
+    print("Connected with result code " + str(rc))
+    client.subscribe(mqtt_topic)
+
+def mqtt_message(client, userdata, msg):
+    if (mqtt_topic == msg.topic):
+        try:
+            data = json.loads(msg.payload.decode("utf-8"))
+        except:
+            print("error json decode")
+            print(str(msg.payload))
+            return
+        print(data)
+
+client = mqtt.Client()
+client.on_connect = mqtt_connect
+client.on_message = mqtt_message
+client.connect("localhost", 1883, 60)
+client.loop_forever()
