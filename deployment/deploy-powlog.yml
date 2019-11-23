@@ -19,6 +19,8 @@
        - uuid-runtime
        - mosquitto-clients
        - mosquitto
+       - python3
+       - python3-redis
 
    - name: Clone stable libsml
      git:
@@ -28,6 +30,11 @@
      become: yes
      become_user: pi 
 
+   - name: Clone rediscon
+     git:
+      repo: 'https://github.com/StefKode/rediscon.git'
+      dest: /home/pi/rediscon
+
    - name: Build libsml
      make:
        chdir: /home/pi/libsml
@@ -36,3 +43,4 @@
      make:
        target: install
        chdir: /home/pi/libsml
+
