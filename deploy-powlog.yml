@@ -17,6 +17,8 @@
        - git-core
        - uuid-dev
        - uuid-runtime
+       - mosquitto-clients
+       - mosquitto
 
    - name: Clone stable libsml
      git:
