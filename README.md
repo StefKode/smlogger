@@ -25,9 +25,23 @@ This is a python script which subscribes to the mqtt messages from libsml. It do
 | redis_server  | 192.168.178.10   | redis server hostname or IP address |
 | power_current_key | PowerCurrent | redis key to store the current power (Watt) |
 | power_day_key | PowerCurrentDay  | redis key to store the daily power usage (kWh) |
-| mqtt_topic | powlog (default!) | this is the topic to which libsml logs the data, this should not be changed |
+| mqtt_topic | powlog | this is the topic to which libsml logs the data, this should not be changed |
 | update_period | 30 | time interval in seconds at which redis values are updated (must be > 4s and < 20min) |
 | avg_window_size | 5 | size of the sliding average window |
+## Install using ansible deployment
+The complete system configuration and the application deployment and configuration is performed using ansible. Make sure ansible has been installed (apt-get install ansible). The ánsible playbook uses a configuration file *config.yml*:
+
+| Config Key    | Description |
+| ------------- | ----- |
+| SERVER_HOST   | target hostname or IP address where the installation is to be performed |
+| TIMEZONE | standardized timezone string (e.g. Europe/Berlin) |
+| ASK_PASSWD | set to *yes* to aks for user password on target or use *no* if you copied your ssh public key |
+Note: as the development has been done on Raspberry PI the user is hardcoded to "pi". You need to change *smlogger.yml* if you use a different name.
+
+Installation instructions:
+- clone this repository
+- in directory deployment create *config.yml* based on the example file *config.yml-example*
+
 
 # Hardware Overview
 to come
