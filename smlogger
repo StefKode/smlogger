@@ -30,6 +30,9 @@ if 2 == len(sys.argv):
 # open and parse configuration file
 # see smlogger.conf-example for examples
 #
+# update_period > 20 min (20 * 60s) are not recommended unless you
+# modify the total day power consumption update at 23:30
+#
 try:
     conf            = ConfigFile("smlogger.conf")
     mqtt_topic      = conf.get_value("mqtt_topic")
@@ -49,9 +52,14 @@ def get_ts():
     return int(datetime.now().timestamp())
 
 
+# turns a hour + minute into a single numerical value
+# e.g. 23:30 will become the value 2330
 tzone = datetime.now().astimezone().tzinfo
 def get_day_mark():
-    return  "%02d%02d" % (datetime.now(tz=tzone).hour, datetime.now(tz=tzone).minute)
+    h = datetime.now(tz=tzone).hour
+    m = datetime.now(tz=tzone).minute
+    marker = (h * 100) + m
+    return  marker
 
 
 #
@@ -86,7 +94,9 @@ print("OK")
 # these variables track the two different update moments
 #
 ts    = get_ts()
-dmark = get_day_mark()
+last_dm = get_day_mark()
+ptot_day_start = 0
+first = True
 
 #
 # windowing functions to smooth out the current power value
@@ -119,7 +129,9 @@ def window_avg():
 #
 def update(data):
     global ts
-    global dmark
+    global last_dm
+    global first
+    global ptot_day_start
     p_cur = data['pmon']
     p_tot = data['ptot']
 
@@ -127,17 +139,34 @@ def update(data):
     cur_ts = get_ts()
     cur_dm = get_day_mark()
 
-    if debug:
-        print("ts=%d curdm=%s dm=%s ptot=%d pcur=%d" % 
-            (cur_ts, cur_dm, dmark, p_tot, p_cur))
+    # on the first udate we set the total power capture of the day
+    # to the current total power counter of the smart meter
+    # Note: unless you start this program right after midnight
+    #       the total power per day is incomplete
+    if first:
+        first = False
+        ptot_day_start = p_tot
 
+    if debug:
+        print("ts=%d cur_dm=%04d last_dm=%04d p_tot=%d p_cur=%d" % 
+            (cur_ts, cur_dm, last_dm, p_tot, p_cur))
+
+    # check if the update period has been passed - if so, send update
+    # and reset timestamp ts
     if (cur_ts - ts) >= update_period:
         red.set(pow_current_key, window_avg())
         ts = cur_ts
 
-    if (cur_dm != dmark) and (cur_dm == "2330"):
+    # check if we just crossed the day start (00:00) - if so, reset 
+    # the total power capture of the day
+    if cur_dm < last_dm:
+        ptot_day_start = p_tot
+
+    # check if we just crossed the 23:30 mark - if so, send update
+    if (cur_dm > 2330) and (last_dm > 2330):
+        ptot_delta = p_tot - ptot_day_start
         red.set(pow_day_key, p_tot)
-    dmark = cur_dm
+    last_dm = cur_dm
 
 
 #
