@@ -165,7 +165,7 @@ def update(data):
     # check if we just crossed the 23:30 mark - if so, send update
     if (cur_dm >= 2330) and (last_dm < 2330):
         ptot_delta = p_tot - ptot_day_start
-        red.set(pow_day_key, p_tot)
+        red.set(pow_day_key, ptot_delta)
     last_dm = cur_dm
 
 
