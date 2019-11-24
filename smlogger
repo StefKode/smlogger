@@ -142,7 +142,7 @@ def update(data):
     # on the first udate we set the total power capture of the day
     # to the current total power counter of the smart meter
     # Note: unless you start this program right after midnight
-    #       the total power per day is incomplete
+    #       the total power per day is incomplete for the first day
     if first:
         first = False
         ptot_day_start = p_tot
@@ -163,7 +163,7 @@ def update(data):
         ptot_day_start = p_tot
 
     # check if we just crossed the 23:30 mark - if so, send update
-    if (cur_dm > 2330) and (last_dm > 2330):
+    if (cur_dm >= 2330) and (last_dm > 2330):
         ptot_delta = p_tot - ptot_day_start
         red.set(pow_day_key, p_tot)
     last_dm = cur_dm
