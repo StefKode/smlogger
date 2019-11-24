@@ -23,6 +23,9 @@
        - python3-redis
        - python3-paho-mqtt
 
+#set timezone
+#cp /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+
    - name: Clone stable libsml
      git:
       repo: 'https://github.com/StefKode/libsml.git'
