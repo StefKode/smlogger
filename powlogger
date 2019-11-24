@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-# vim: set expandtab ts=4:
 
 import paho.mqtt.client as mqtt
 from   datetime import datetime
@@ -11,18 +10,26 @@ from rediscon import RedisCon
 from modules.configfile import ConfigFile
 
 print("Smart Meter Redis Logger")
+
+debug = False
+if 2 == len(sys.argv):
+    cmd_arg = sys.argv[1]
+    if cmd_arg == "-d":
+        debug = True
+
 try:
-    conf          = ConfigFile("smlogger.conf")
-    mqtt_topic    = conf.get_value("mqtt_topic")
-    redis_server  = conf.get_value("redis_server")
-    redis_key     = conf.get_value("redis_key")
-    update_period = conf.get_value("update_period")
+    conf            = ConfigFile("smlogger.conf")
+    mqtt_topic      = conf.get_value("mqtt_topic")
+    redis_server    = conf.get_value("redis_server")
+    pow_current_key = conf.get_value("power_current_key")
+    pow_day_key     = conf.get_value("power_day_key")
+    update_period   = conf.get_value("update_period")
 except Exception as e:
     print(e)
     sys.exit(1)
 
 print("Connect REDIS")
-red = RedisCon(host=redis_server, log_enabled=False, trx_log=False)
+red = RedisCon(name="powlog", host=redis_server, log_enabled=False, trx_log=debug)
 red.setConMonInterval(5)
 red.connect()
 
@@ -31,9 +38,13 @@ def get_ts():
     return int(datetime.now().timestamp())
 
 
-print("redis_server  = " + str(redis_server))
-print("mqtt_topic    = " + str(mqtt_topic))
-print("update_ṕeriod = " + str(update_period))
+print("redis_server    = " + str(redis_server))
+print("pow_current_key = " + str(pow_current_key))
+print("pow_day_key     = " + str(pow_day_key))
+print("redis_server    = " + str(redis_server))
+print("mqtt_topic      = " + str(mqtt_topic))
+print("update_period   = " + str(update_period))
+
 val_window = [0] * 5
 ts = get_ts()
 
@@ -63,11 +74,14 @@ def update(data):
     p_cur = data['pmon']
     p_tot = data['ptot']
 
+    if debug:
+        print(p_cur, p_tot)
+
     window_insert(p_cur)
     cur_ts = get_ts()
 
     if (cur_ts - ts) >= update_period:
-        red.set(redis_key, window_avg())
+        red.set(pow_current_key, window_avg())
         ts = cur_ts
 
 
@@ -93,3 +107,6 @@ client.on_connect = mqtt_connect
 client.on_message = mqtt_message
 client.connect("localhost", 1883, 60)
 client.loop_forever()
+
+
+# vim: set expandtab ts=4:
