@@ -60,7 +60,7 @@
        target: install
        chdir: /home/pi/libsml
      become: yes
-     become_user: pi 
+     become_user: root
 
    - name: deploy smlogger config file
      copy:
@@ -72,7 +72,7 @@
 
    - name: deploy smlmon service
      copy:
-        src: systemd/smlmon.service
+        src: ../systemd/smlmon.service
         dest: /lib/systemd/system/smlmon.service
         owner: root
         group: root
@@ -80,7 +80,7 @@
 
    - name: deploy smlogger service
      copy:
-        src: systemd/smlogger.service
+        src: ../systemd/smlogger.service
         dest: /lib/systemd/system/smlogger.service
         owner: root
         group: root

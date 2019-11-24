@@ -5,6 +5,12 @@ Description=Smart Meter Redis Logger
 Type=simple
 User=pi
 ExecStart=/home/pi/smlogger/smlogger
+WorkingDirectory=/home/pi/smlogger
+SyslogIdentifier=smlogger
+StandardOutput=syslog
+StandardError=syslog
+Restart=always
+RestartSec=3
 
 [Install]
 WantedBy=multi-user.target

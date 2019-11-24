@@ -3,3 +3,4 @@ config.yml
 hosts
 smlogger.conf
 __pycache__
+*.retry
