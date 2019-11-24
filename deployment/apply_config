@@ -6,3 +6,9 @@ host=$(grep SERVER_HOST config.yml | awk '{print $2}')
 echo "[hostgroup]" > hosts
 echo "host_base ansible_host=$host ansible_port=22" >> hosts
 
+askpass=$(grep ASK_PASSWD config.yml | awk '{print $2}')
+if [ "$askpass" = "yes" ]; then
+	sed -i 's/^#ASKPASS/ASKPASS/' Makefile
+else
+	sed -i 's/^ASKPASS/#ASKPASS/' Makefile
+fi

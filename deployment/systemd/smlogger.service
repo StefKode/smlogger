@@ -1,0 +1,10 @@
+[Unit]
+Description=Smart Meter Redis Logger
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/home/pi/smlogger/smlogger
+
+[Install]
+WantedBy=multi-user.target

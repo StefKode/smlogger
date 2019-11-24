@@ -1,0 +1,10 @@
+[Unit]
+Description=Smart Meter Power Monitor
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/home/pi/libsml/examples/smlmon
+
+[Install]
+WantedBy=multi-user.target
