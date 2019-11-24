@@ -1,0 +1,104 @@
+- hosts: host_base
+  remote_user: pi
+
+  tasks:
+   - name: Load configuration variables
+     include_vars: config.yml
+
+   - name: User in dialout group
+     user:
+       name:  pi
+       group: dialout
+     become:  yes
+
+   - name: Need these packages (may take a while on RPI-Zero)
+     apt: name={{item}} state=present update_cache=true
+     with_items:
+       - git-core
+       - uuid-dev
+       - uuid-runtime
+       - mosquitto-clients
+       - mosquitto
+       - python3
+       - python3-redis
+       - python3-paho-mqtt
+
+   - name: Set local timezone
+     timezone:
+       name: "{{ TIMEZONE }}"
+
+   - name: Clone stable libsml
+     git:
+      repo: 'https://github.com/StefKode/libsml.git'
+      dest: /home/pi/libsml
+      version: stable
+     become: yes
+     become_user: pi 
+
+   - name: Clone rediscon
+     git:
+      repo: 'https://github.com/StefKode/rediscon.git'
+      dest: /home/pi/rediscon
+     become: yes
+     become_user: pi 
+
+   - name: Clone smlogger
+     git:
+      repo: 'https://github.com/StefKode/smlogger.git'
+      dest: /home/pi/smlogger
+     become: yes
+     become_user: pi 
+
+   - name: Build libsml
+     make:
+       chdir: /home/pi/libsml
+     become: yes
+     become_user: pi 
+
+   - name: Install libsml
+     make:
+       target: install
+       chdir: /home/pi/libsml
+     become: yes
+     become_user: pi 
+
+   - name: deploy smlogger config file
+     copy:
+        src: smlogger.conf
+        dest: /home/pi/smlogger/smlogger.conf
+        owner: root
+        group: root
+        mode: 0755
+
+   - name: deploy smlmon service
+     copy:
+        src: systemd/smlmon.service
+        dest: /lib/systemd/system/smlmon.service
+        owner: root
+        group: root
+        mode: 0755
+
+   - name: deploy smlogger service
+     copy:
+        src: systemd/smlogger.service
+        dest: /lib/systemd/system/smlogger.service
+        owner: root
+        group: root
+        mode: 0755
+
+   - name: enable smlmon service
+     systemd:
+       name: smlmon
+       enabled: yes
+
+   - name: enable and start smlmon service
+     systemd:
+       name: smlmon
+       enabled: yes
+       state: started
+
+   - name: enable and start smlogger service
+     systemd:
+       name: smlogger
+       enabled: yes
+       state: started

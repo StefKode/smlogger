@@ -2,3 +2,4 @@
 config.yml
 hosts
 smlogger.conf
+__pycache__

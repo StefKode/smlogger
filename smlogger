@@ -10,10 +10,14 @@ import paho.mqtt.client as mqtt
 from   datetime import datetime
 import json
 import sys
+import os
 
 sys.path.append("../rediscon")
 from rediscon import RedisCon
 from modules.configfile import ConfigFile
+
+script_d = os.path.dirname(os.path.realpath(__file__))
+os.chdir(script_d)
 
 print("Smart Meter Redis Logger")
 
