@@ -1,4 +1,10 @@
 #!/usr/bin/python3
+#
+# Smart Meter Logger Transport
+# Reads mqtt power-log and sends it to Redis Server
+# Copyright: Stefan Koch
+# License: GPLv3
+#
 
 import paho.mqtt.client as mqtt
 from   datetime import datetime
@@ -11,12 +17,19 @@ from modules.configfile import ConfigFile
 
 print("Smart Meter Redis Logger")
 
+#
+# Check for debug mode (use -d)
+#
 debug = False
 if 2 == len(sys.argv):
     cmd_arg = sys.argv[1]
     if cmd_arg == "-d":
         debug = True
 
+#
+# open and parse configuration file
+# see smlogger.conf-example for examples
+#
 try:
     conf            = ConfigFile("smlogger.conf")
     mqtt_topic      = conf.get_value("mqtt_topic")
@@ -24,31 +37,64 @@ try:
     pow_current_key = conf.get_value("power_current_key")
     pow_day_key     = conf.get_value("power_day_key")
     update_period   = conf.get_value("update_period")
+    avg_window_size = conf.get_value("avg_window_size")
 except Exception as e:
     print(e)
     sys.exit(1)
 
-print("Connect REDIS")
-red = RedisCon(name="powlog", host=redis_server, log_enabled=False, trx_log=debug)
-red.setConMonInterval(5)
-red.connect()
-
-
+#
+# time functions to determine update time and daily usage report
+#
 def get_ts():
     return int(datetime.now().timestamp())
 
 
+tzone = datetime.now().astimezone().tzinfo
+def get_day_mark():
+    return  "%02d%02d" % (datetime.now(tz=tzone).hour, datetime.now(tz=tzone).minute)
+
+
+#
+# print out important configuration parameters
+#
+print("-------------------------------")
 print("redis_server    = " + str(redis_server))
 print("pow_current_key = " + str(pow_current_key))
 print("pow_day_key     = " + str(pow_day_key))
 print("redis_server    = " + str(redis_server))
 print("mqtt_topic      = " + str(mqtt_topic))
 print("update_period   = " + str(update_period))
+print("avg_window_size = " + str(avg_window_size))
+print("debug           = " + str(debug))
+print("-------------------------------")
 
-val_window = [0] * 5
-ts = get_ts()
+#
+# connect to Redis
+# Redis is our outgoing data channel. The redis instance is mostly remote
+# you can modify the value keys in the config file
+#
+print("connect Redis..")
+try:
+    red = RedisCon(name="powlog", host=redis_server, log_enabled=False, trx_log=debug)
+    red.setConMonInterval(5)
+    red.connect()
+except Exception as e:
+    print(e)
+    sys.exit(1)
+print("OK")
 
+#
+# these variables track the two different update moments
+#
+ts    = get_ts()
+dmark = get_day_mark()
 
+#
+# windowing functions to smooth out the current power value
+# if your processing/visualization backend does smooting as well then you
+# should reduce the window size in the config file
+#
+val_window = [0] * avg_window_size
 def window_insert(v):
     global val_window
     size = len(val_window)
@@ -67,29 +113,48 @@ def window_avg():
     return int(avg / size)
 
 
+#
+# (part of mqtt callback)
+# for every mqtt message this functionis executed
+# here happens the averaging and time triggered updates to redis
+#
 def update(data):
-    global p_cur_avg_sum
-    global p_cycle
     global ts
+    global dmark
     p_cur = data['pmon']
     p_tot = data['ptot']
 
-    if debug:
-        print(p_cur, p_tot)
-
     window_insert(p_cur)
     cur_ts = get_ts()
+    cur_dm = get_day_mark()
+
+    if debug:
+        print("ts=%d curdm=%s dm=%s ptot=%d pcur=%d" % 
+            (cur_ts, cur_dm, dmark, p_tot, p_cur))
 
     if (cur_ts - ts) >= update_period:
         red.set(pow_current_key, window_avg())
         ts = cur_ts
 
+    if (cur_dm != dmark) and (cur_dm == "2330"):
+        red.set(pow_day_key, p_tot)
+    dmark = cur_dm
 
+
+#
+# (mqtt callback)
+# connection indicator, were we subscribe to the powlog mqtt topic
+#
 def mqtt_connect(client, userdata, flags, rc):
-    print("Connected with result code " + str(rc))
+    print("OK " + str(rc))
     client.subscribe(mqtt_topic)
 
-
+#
+# (mqtt callback)
+# called for every message on mqtt topic
+# here we convert the json to python-dictionary
+# any conversion error leads to ignore the message
+#
 def mqtt_message(client, userdata, msg):
     if (mqtt_topic == msg.topic):
         try:
@@ -101,12 +166,11 @@ def mqtt_message(client, userdata, msg):
         update(data)
 
 
-print("Connect MQTT")
+print("connect MQTT..")
 client = mqtt.Client()
 client.on_connect = mqtt_connect
 client.on_message = mqtt_message
 client.connect("localhost", 1883, 60)
 client.loop_forever()
-
 
 # vim: set expandtab ts=4:

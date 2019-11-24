@@ -3,5 +3,6 @@
 	"power_current_key": "<redis key for current power consumption (W)>",
 	"power_day_key":     "<redis key for overall power consumption of a day (kWh)",
 	"mqtt_topic":        "powlog",
-	"update_period":     30
+	"update_period":     30,
+	"avg_window_size":   5
 }
