@@ -9,10 +9,11 @@ The following environment has been tested:
 - Ansible playbook run from Ubuntu 18.04 LTS
 
 # Software Overview
-The software consists of two major components:
+The software consists of the following components:
 - Forked libsml from Volkszaehler (https://github.com/volkszaehler/libsml)
 - smlogger application
 - ansible remote deploymnent
+- redis connection manager (https://github.com/StefKode/rediscon)
 
 ## Forked LibSML
 The libsml implementation from Volkszahler is the best implementation to read the SML protocol from a serial device. It contains a sample sml-server which decodes all received SML objects and writes them to stdout. In the fork this sample server has been modifed to print this data for easy parsing.
