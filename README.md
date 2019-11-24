@@ -36,6 +36,7 @@ The complete system configuration and the application deployment and configurati
 | SERVER_HOST   | target hostname or IP address where the installation is to be performed |
 | TIMEZONE | standardized timezone string (e.g. Europe/Berlin) |
 | ASK_PASSWD | set to *yes* to aks for user password on target or use *no* if you copied your ssh public key |
+
 Note: as the development has been done on Raspberry PI the user is hardcoded to "pi". You need to change *smlogger.yml* if you use a different name.
 
 Installation instructions:
