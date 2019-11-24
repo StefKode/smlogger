@@ -13,10 +13,12 @@ The software consists of two major components:
 - Forked libsml from Volkszaehler (https://github.com/volkszaehler/libsml)
 - smlogger application
 - ansible remote deploymnent
+
 ## Forked LibSML
 The libsml implementation from Volkszahler is the best implementation to read the SML protocol from a serial device. It contains a sample sml-server which decodes all received SML objects and writes them to stdout. In the fork this sample server has been modifed to print this data for easy parsing.
 
 Also a script *smlmon* has been added which publishes the current power consumption and the total power counter to a mqtt broker. None of the core libsml functions has been modifed. I decided for the fork because I re-use he build system to create the modified server.
+
 ## smlogger application
 This is a python script which subscribes to the mqtt messages from libsml. It does averaging and publishes the two power values to a Redis server based on a time trigger. In order to configure the program there is a config file *smlogger.conf*. This json file has the following keys:
 
@@ -28,6 +30,7 @@ This is a python script which subscribes to the mqtt messages from libsml. It do
 | mqtt_topic | powlog | this is the topic to which libsml logs the data, this should not be changed |
 | update_period | 30 | time interval in seconds at which redis values are updated (must be > 4s and < 20min) |
 | avg_window_size | 5 | size of the sliding average window |
+
 ## Install using ansible deployment
 The complete system configuration and the application deployment and configuration is performed using ansible. Make sure ansible has been installed (apt-get install ansible). The ánsible playbook uses a configuration file *config.yml*:
 
@@ -44,7 +47,7 @@ Note: as the development has been done on Raspberry PI the user is hardcoded to 
 - setup your Raspberry PI and make sure it is running and reachable
 - clone this repository
 - in directory *deployment* create *config.yml* based on the example file *config.yml-example* and apply changes as needed
-- copy the file *smlogger.conf-example* to *deploymnent/smlogger.conf* and apply all settings
+- copy the file *smlogger.conf-example* to *smlogger.conf* and apply all settings
 - cd into *deployment*
 - type *make*
 
