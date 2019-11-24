@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #
-# Smart Meter Logger Transport
+# Smart Meter Redis Logger
 # Reads mqtt power-log and sends it to Redis Server
 # Copyright: Stefan Koch
 # License: GPLv3
@@ -61,7 +61,6 @@ print("-------------------------------")
 print("redis_server    = " + str(redis_server))
 print("pow_current_key = " + str(pow_current_key))
 print("pow_day_key     = " + str(pow_day_key))
-print("redis_server    = " + str(redis_server))
 print("mqtt_topic      = " + str(mqtt_topic))
 print("update_period   = " + str(update_period))
 print("avg_window_size = " + str(avg_window_size))
