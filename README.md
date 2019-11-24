@@ -39,10 +39,12 @@ The complete system configuration and the application deployment and configurati
 
 Note: as the development has been done on Raspberry PI the user is hardcoded to "pi". You need to change *smlogger.yml* if you use a different name.
 
-Installation instructions:
+### Installation instructions
 - clone this repository
-- in directory deployment create *config.yml* based on the example file *config.yml-example*
-
+- in directory *deployment* create *config.yml* based on the example file *config.yml-example* and apply changes as needed
+- copy the file *smlogger.conf-example* to *deploymnent/smlogger.conf* and apply all settings
+- cd into *deployment*
+- type *make*
 
 # Hardware Overview
 to come
