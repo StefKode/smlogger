@@ -66,9 +66,7 @@
      copy:
         src: smlogger.conf
         dest: /home/pi/smlogger/smlogger.conf
-        owner: root
-        group: root
-        mode: 0755
+        mode: 0644
      become: yes
      become_user: pi 
 
