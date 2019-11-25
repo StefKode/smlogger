@@ -1,6 +1,8 @@
 # smlogger
 Smart Meter SML Logger is an application to read Smart Meter Language (SML) from a serial port and log the measurements to a Redis Server for further processing.
 
+Please feel free to ask questions for to provide feedback by opening a new issue or by commenting an existing one.
+
 # Supported Environment
 The following environment has been tested:
 - eHZ Smart Meter with SML status on IR port
