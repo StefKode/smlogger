@@ -102,3 +102,17 @@
        name: smlogger
        enabled: yes
        state: started
+
+   - name: enable RPI mini UART
+     lineinfile:
+       path: /boot/config.txt
+       line: "enable_uart=1"
+       state: present
+       firstmatch: yes
+       insertbefore: "^#hdmi_safe=1"
+
+   - name: disable serial console
+     replace:
+       path: /boot/cmdline.txt
+       regexp: "console=serial0,115200"
+       replace: ""
