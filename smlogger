@@ -34,9 +34,6 @@ if 2 == len(sys.argv):
 # open and parse configuration file
 # see smlogger.conf-example for examples
 #
-# update_period > 20 min (20 * 60s) are not recommended unless you
-# modify the total day power consumption update at 23:30
-#
 try:
     conf            = ConfigFile("smlogger.conf")
     mqtt_topic      = conf.get_value("mqtt_topic")
@@ -155,22 +152,21 @@ def update(data):
         print("ts=%d cur_dm=%04d last_dm=%04d p_tot=%d p_cur=%d" % 
             (cur_ts, cur_dm, last_dm, p_tot, p_cur))
 
-    # check if the update period has been passed - if so, send update
-    # and reset timestamp ts
-    if (cur_ts - ts) >= update_period:
-        red.set(pow_current_key, window_avg())
-        ts = cur_ts
-
     # check if we just crossed the day start (00:00) - if so, reset 
     # the total power capture of the day
     if cur_dm < last_dm:
         ptot_day_start = p_tot
+    last_dm = cur_dm
 
-    # check if we just crossed the 23:30 mark - if so, send update
-    if (cur_dm >= 2330) and (last_dm < 2330):
+    # check if the update period has been passed - if so, send update
+    # and reset timestamp ts
+    if (cur_ts - ts) >= update_period:
+        red.set(pow_current_key, window_avg())
+
         ptot_delta = p_tot - ptot_day_start
         red.set(pow_day_key, ptot_delta)
-    last_dm = cur_dm
+
+        ts = cur_ts
 
 
 #
