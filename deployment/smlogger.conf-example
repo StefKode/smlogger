@@ -2,6 +2,7 @@
 	"redis_server":      "ip address",
 	"power_current_key": "redis key",
 	"power_day_key":     "redis key",
+	"ts_key":            "redis key",
 	"mqtt_topic":        "powlog",
 	"update_period":     30,
 	"avg_window_size":   5

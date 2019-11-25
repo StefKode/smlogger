@@ -28,6 +28,7 @@ This is a python script which subscribes to the mqtt messages from libsml. It do
 | redis_server  | 192.168.178.10   | redis server hostname or IP address |
 | power_current_key | PowerCurrent | redis key to store the current power (Watt) |
 | power_day_key | PowerCurrentDay  | redis key to store the daily power usage (kWh). This value increments on the day and resets afer 0:00 |
+| ts_key | PowerTS | redis key to store capture time stamp |
 | mqtt_topic | powlog | this is the topic to which libsml logs the data, this should not be changed |
 | update_period | 30 | time interval in seconds at which redis values are updated (must be > 4s) |
 | avg_window_size | 5 | size of the sliding average window |

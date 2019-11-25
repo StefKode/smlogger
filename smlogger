@@ -40,6 +40,7 @@ try:
     redis_server    = conf.get_value("redis_server")
     pow_current_key = conf.get_value("power_current_key")
     pow_day_key     = conf.get_value("power_day_key")
+    ts_key          = conf.get_value("ts_key")
     update_period   = conf.get_value("update_period")
     avg_window_size = conf.get_value("avg_window_size")
 except Exception as e:
@@ -70,6 +71,7 @@ print("-------------------------------")
 print("redis_server    = " + str(redis_server))
 print("pow_current_key = " + str(pow_current_key))
 print("pow_day_key     = " + str(pow_day_key))
+print("ts_ke           = " + str(ts_key))
 print("mqtt_topic      = " + str(mqtt_topic))
 print("update_period   = " + str(update_period))
 print("avg_window_size = " + str(avg_window_size))
@@ -166,6 +168,9 @@ def update(data):
         ptot_delta = p_tot - ptot_day_start
         # convert from Wh to kWh
         red.set(pow_day_key, float("{0:.2f}".format(ptot_delta/1000)))
+
+        # update value timestamp
+        red.set(ts_key, cur_ts)
 
         ts = cur_ts
 
