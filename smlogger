@@ -164,7 +164,8 @@ def update(data):
         red.set(pow_current_key, window_avg())
 
         ptot_delta = p_tot - ptot_day_start
-        red.set(pow_day_key, ptot_delta)
+        # convert from Wh to kWh
+        red.set(pow_day_key, float("{0:.2f}".format(ptot_delta/1000)))
 
         ts = cur_ts
 
