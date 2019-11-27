@@ -56,4 +56,5 @@ Note: as the development has been done on Raspberry PI the user is hardcoded to 
 - type *make*
 
 # Hardware Overview
-to come
+## Schematics of IR sensor
+![Schematics Picture](schmatics/schematics.png?raw=true "IR Sensor Schematics")
