@@ -8,7 +8,7 @@ Fine resolution power consumption at anytime.<br>
 <img src="images/pcur.png?raw=true">
 
 Accumulating power uwe over the day.<br>
-<img src="images/ptot.png?raw=true" width="300">
+<img src="images/ptot.png?raw=true">
 
 # Supported Environment
 The following environment has been tested:
