@@ -5,10 +5,10 @@ Please feel free to ask questions for to provide feedback by opening a new issue
 
 # Screenshots from Domoticz
 Fine resolution power consumption at anytime.<br>
-<img src="images/pcur.jpg?raw=true">
+<img src="images/pcur.png?raw=true">
 
 Accumulating power uwe over the day.<br>
-<img src="images/ptot.jpg?raw=true" width="300">
+<img src="images/ptot.png?raw=true" width="300">
 
 # Supported Environment
 The following environment has been tested:
