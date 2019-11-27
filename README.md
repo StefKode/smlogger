@@ -3,6 +3,13 @@ Smart Meter SML Logger is an application to read Smart Meter Language (SML) from
 
 Please feel free to ask questions for to provide feedback by opening a new issue or by commenting an existing one.
 
+# Screenshots from Domoticz
+Fine resolution power consumption at anytime.<br>
+<img src="images/pcur.jpg?raw=true">
+
+Accumulating power uwe over the day.<br>
+<img src="images/ptot.jpg?raw=true" width="300">
+
 # Supported Environment
 The following environment has been tested:
 - eHZ Smart Meter with SML status on IR port
