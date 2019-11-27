@@ -59,7 +59,10 @@ Note: as the development has been done on Raspberry PI the user is hardcoded to 
 The following section outlines some facts of the hardware design.
 ## Schematics of IR sensor
 ![Schematics Picture](schmatics/schematics.png?raw=true "IR Sensor Schematics")
+
 ## Prototype IR Sensor attached to Smart Meter
-<img src="images/sch.jpg?raw=true" width="100">
+<img src="images/sch.jpg?raw=true" width="300">
+
 ## RPI-Z with Magnet-Mount
-![RPI-Z Picture](images/sch.jpg?raw=true "RPI-Z with magnet mount")
+<img src="images/rpi.jpg?raw=true" width="300">
+
