@@ -7,7 +7,7 @@ Please feel free to ask questions for to provide feedback by opening a new issue
 Fine resolution power consumption at any time. In my setup I use virtual sensors in [Domoticz](https://www.domoticz.com/) which are updated with values from a Redis server.<br>
 <img src="images/pcur.png?raw=true">
 
-Accumulating power uwe over the day.<br>
+Accumulating power over the day.<br>
 <img src="images/ptot.png?raw=true">
 
 # Supported Environment
