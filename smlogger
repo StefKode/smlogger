@@ -135,8 +135,12 @@ def update(data):
     global last_dm
     global first
     global ptot_day_start
-    p_cur = data['pmon']
-    p_tot = data['ptot']
+
+    try:
+        p_cur = data['pmon']
+        p_tot = data['ptot']
+    except:
+        return
 
     window_insert(p_cur)
     cur_ts = get_ts()
