@@ -39,9 +39,11 @@ try:
     mqtt_topic      = conf.get_value("mqtt_topic")
     redis_server    = conf.get_value("redis_server")
     pow_current_key = conf.get_value("power_current_key")
+    pow_kwh_key     = conf.get_value("power_kwh_key")
     pow_day_key     = conf.get_value("power_day_key")
     ts_key          = conf.get_value("ts_key")
     update_period   = conf.get_value("update_period")
+    kwh_period      = conf.get_value("kwh_update_period")
     avg_window_size = conf.get_value("avg_window_size")
 except Exception as e:
     print(e)
@@ -67,16 +69,18 @@ def get_day_mark():
 #
 # print out important configuration parameters
 #
-print("-------------------------------")
-print("redis_server    = " + str(redis_server))
-print("pow_current_key = " + str(pow_current_key))
-print("pow_day_key     = " + str(pow_day_key))
-print("ts_ke           = " + str(ts_key))
-print("mqtt_topic      = " + str(mqtt_topic))
-print("update_period   = " + str(update_period))
-print("avg_window_size = " + str(avg_window_size))
-print("debug           = " + str(debug))
-print("-------------------------------")
+print("---------------------------------")
+print("redis_server      = " + str(redis_server))
+print("pow_current_key   = " + str(pow_current_key))
+print("pow_day_key       = " + str(pow_day_key))
+print("pow_kwh_key       = " + str(pow_kwh_key))
+print("ts_key            = " + str(ts_key))
+print("mqtt_topic        = " + str(mqtt_topic))
+print("update_period     = " + str(update_period))
+print("kwh_update_period = " + str(kwh_update_period))
+print("avg_window_size   = " + str(avg_window_size))
+print("debug             = " + str(debug))
+print("---------------------------------")
 
 #
 # connect to Redis
@@ -100,6 +104,8 @@ ts    = get_ts()
 last_dm = get_day_mark()
 ptot_day_start = 0
 first = True
+last_kwh_sample = 0
+last_kwh = 0
 
 #
 # windowing functions to smooth out the current power value
