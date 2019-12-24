@@ -9,12 +9,13 @@ class AnaGeneric():
         self._debug = debug
         self._name  = name
         self._first = True
+        self._forced_ts = None
         self._init()
 
-    def _init():
+    def _init(self):
         raise ValueError("[%-10s] ERROR! _init not defined" % self._name)
 
-    def _debug(text):
+    def _debug(self, text):
         if self._debug:
             print("[%-10s] %s" % (self._name, text))
 
@@ -22,8 +23,14 @@ class AnaGeneric():
         self._inval = value
         self._update()
 
+    def forceTS(self, value):
+        self._forced_ts = value
+
     def _get_ts(self):
-        return int(datetime.now().timestamp())
+        if self._forced_ts is None:
+            return int(datetime.now().timestamp())
+        else:
+            return self._forced_ts
 
     def _update(self):
         raise ValueError("[%-10s] ERROR! _update not defined" % self._name)
