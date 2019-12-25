@@ -7,6 +7,8 @@ class RedisConEmu():
         self.db = db
         self.log_enabled = log_enabled
         self.trx_log = trx_log
+        self._lastval = None
+        self._lastkey = None
 
     def _log(text):
         print("[RedisCon-Emu]: %s" % text)
@@ -40,6 +42,16 @@ class RedisConEmu():
         if not self.connected:
             self._log("ERROR - set on closed connection")
         self._log("set(%s) = %s" % (str(key), str(value)))
+        self._lastval = value
+        self._lastkey = key
+
+
+    def getLastKey():
+        return self._lastkey
+
+
+    def getLastValue():
+        return self._lastval
 
 
     def subscribedChanges(self):
