@@ -4,3 +4,4 @@ hosts
 smlogger.conf
 __pycache__
 *.retry
+venv
