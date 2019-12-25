@@ -46,11 +46,11 @@ class RedisConEmu():
         self._lastkey = key
 
 
-    def getLastKey():
+    def getLastKey(self):
         return self._lastkey
 
 
-    def getLastValue():
+    def getLastValue(self):
         return self._lastval
 
 

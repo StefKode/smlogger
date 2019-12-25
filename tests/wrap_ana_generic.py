@@ -13,5 +13,8 @@ class TestAnaGeneric(AnaGeneric):
     def _update(self):
         print("TestAnaGeneric: update = %s" % str(self._inval))
 
+    def getLastVal(self):
+        return self._inval
+
     def getTS(self):
         return self._get_ts()
