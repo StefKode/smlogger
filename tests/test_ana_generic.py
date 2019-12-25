@@ -34,4 +34,6 @@ time.sleep(1)
 t2 = ana.getTS()
 tests.assertEqual(t1, t2 - 1)
 
-
+tests.announceTest("AnaGeneric set input value")
+ana.update(345)
+tests.assertEqual(ana.getLastVal(), 345)
