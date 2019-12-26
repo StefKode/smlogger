@@ -13,10 +13,19 @@ def announceTest(name):
     _count += 1
     
 
-def assertEqual(a,b):
+def assertEqual(a,b, descr=None, failtext=None):
     if a == b:
-        print(_cOK + "[%2d] Test PASS %s" %(_count, _RST))
+        if descr is not None:
+            print(_cOK + "[%2d] Info: %s" % (_count, str(descr)))
+        print(_cOK + "[%2d] A = %s"       % (_count, str(a)))
+        print(       "[%2d] B = %s"       % (_count, str(b)))
+        print(       "[%2d] Test PASS %s" % (_count, _RST))
     else:
-        print(_cER + "[%2d] Test FAIL" % _count)
-        print("[%2d] A = %s"   % (_count, str(a)))
-        print("[%2d] B = %s%s" % (s_count, str(b), _RST))
+        if descr is not None:
+            print(_cER + "[%2d] Info: %s" % (_count, str(descr)))
+        print(_cER +     "[%2d] A = %s"   % (_count, str(a)))
+        print(           "[%2d] B = %s"   % (_count, str(b)))
+
+        if failtext is not None:
+            print("%s" % str(failtext))
+        print("[%2d] Test FAIL%s" % (_count, _RST))
