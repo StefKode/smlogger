@@ -3,6 +3,13 @@ Smart Meter SML Logger is an application to read Smart Meter Language (SML) from
 
 Please feel free to ask questions for to provide feedback by opening a new issue or by commenting an existing one.
 
+# Screenshots from Domoticz
+Fine resolution power consumption at any time. In my setup I use virtual sensors in [Domoticz](https://www.domoticz.com/) which are updated with values from a Redis server.<br>
+<img src="images/pcur.png?raw=true">
+
+Accumulating power over the day.<br>
+<img src="images/ptot.png?raw=true">
+
 # Supported Environment
 The following environment has been tested:
 - eHZ Smart Meter with SML status on IR port
@@ -59,6 +66,7 @@ Note: as the development has been done on Raspberry PI the user is hardcoded to 
 The following section outlines some facts of the hardware design.
 ## Schematics of IR sensor
 ![Schematics Picture](schmatics/schematics.png?raw=true "IR Sensor Schematics")
+Tuning: You should leave R1 at maximum and tune R2 to be just above the opening Vube value of the transistor. This is typically 0.7V.
 
 ## Prototype IR Sensor attached to Smart Meter
 <img src="images/sch.jpg?raw=true" width="300">
