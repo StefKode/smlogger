@@ -21,3 +21,10 @@ try:
 except Exception as e:
     tests.assertEqual(0,1, failtext=str(e))
 
+tests.announceTest("AnaPCur windowing function - startup")
+ana.update(5)
+ana.update(5)
+ana.update(5)
+ana.update(5)
+ana.update(5)
+tests.assertEqual(ana._value, 2.5, "window half filled", str(ana._val_window))
