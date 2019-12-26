@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/stefkode/smlogger/workflows/CI/badge.svg)](https://github.com/stefkode/smlogger/actions)
+[![Actions Status](https://github.com/stefkode/smlogger/workflows/CI/badge.svg?branch=feature_kwh)](https://github.com/stefkode/smlogger/actions)
 
 # smlogger
 Smart Meter SML Logger is an application to read Smart Meter Language (SML) from a serial port and log the measurements to a Redis Server for further processing.
