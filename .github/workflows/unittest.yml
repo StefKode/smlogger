@@ -11,6 +11,6 @@ jobs:
     - uses: actions/checkout@v1
     - name: Perform Unit Tests
       run: |
-        apt-get install -y sendxmpp
+        sudo apt-get install -y sendxmpp
         cd tests
         make | sendxmpp -u ${{ secrets.XMPPU }} -j ${{ secrets.XMPPD }}  -t -a /etc/ssl/certs/ -p ${{ secrets.XMPPPW }} ${{ secrets.XMPPREC }} 
