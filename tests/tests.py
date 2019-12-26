@@ -1,4 +1,3 @@
-from colorama import Fore, Back, Style
 import sys
 
 try:
@@ -8,6 +7,7 @@ except:
     bold_out = False
 
 if bold_out:
+    from colorama import Fore, Back, Style
     _cAN = Fore.BLUE  + Style.BRIGHT 
     _cOK = Fore.GREEN + Style.BRIGHT
     _cER = Fore.RED   + Style.BRIGHT
