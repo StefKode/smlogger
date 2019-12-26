@@ -6,4 +6,3 @@ generic:
 
 pcur:
 	@python3 test_ana_pcur.py
-
