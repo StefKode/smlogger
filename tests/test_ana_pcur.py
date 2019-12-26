@@ -16,8 +16,8 @@ try:
                     opts={"avg_win_size": 10, "update_period": 30}, 
                     name="test_ana", 
                     debug=True)
-
     tests.assertEqual(1,1)
+
 except Exception as e:
     tests.assertEqual(0,1, failtext=str(e))
 

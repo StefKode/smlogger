@@ -2,14 +2,14 @@
 from modules.ana_generic import AnaGeneric
 
 class AnaPCur(AnaGeneric):
-    def _init():
+    def _init(self):
         self._avg_win_size  = self._opts["avg_win_size"]
         self._update_period = self._opts["update_period"]
         self._val_window = [0] * self._avg_win_size
         self._last_ts = self._get_ts()
         
 
-    def _update():
+    def _update(self):
         self._window_insert(self._inval)
         ts = self._get_ts()
         if (ts - self._last_ts) >= self._update_period:
