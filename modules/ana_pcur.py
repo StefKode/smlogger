@@ -26,12 +26,14 @@ class AnaPCur(AnaGeneric):
         self._val_window[size - 1] = v
 
 
-    def _window_avg(self, ):
+    def _window_avg(self):
         size = self._avg_win_size
         avg  = 0
         for i in range(0, size):
             avg += self._val_window[i]
         return avg / size
 
+    def overwrite_last_ts(self, value):
+        self._last_ts = value
 
 # vim: set expandtab ts=4:

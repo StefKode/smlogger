@@ -9,8 +9,10 @@ class RedisConEmu():
         self.trx_log = trx_log
         self._lastval = None
         self._lastkey = None
+        self.connected = False
 
-    def _log(text):
+
+    def _log(self, text):
         print("[RedisCon-Emu]: %s" % text)
 
 
@@ -20,17 +22,20 @@ class RedisConEmu():
 
     def setConMonInterval(self, secs):
         self._log("setConMonInterval = %d" % secs)
+        self._secs = secs
 
 
     def connect(self):
-        self._log("setConMonInterval = %d" % secs)
+        self._log("setConMonInterval = %d" % self._secs)
         if self.connected:
             self._log("error: redis is already connected")
             return
         self.connected = True
 
+
     def subscribeToList(self, sublist):
         self._log("subscribe: %s" % str(sublist))
+
 
     def get(self, key):
         if not self.connected:
@@ -50,7 +55,7 @@ class RedisConEmu():
         return self._lastkey
 
 
-    def getLastValue(self):
+    def getLastVal(self):
         return self._lastval
 
 

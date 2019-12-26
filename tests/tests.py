@@ -47,3 +47,6 @@ def assertEqual(a,b, descr=None, failtext=None):
         print("[%2d] FAIL%s" % (_count, _RST))
 
         sys.exit(1)
+
+def log(text):
+    print("[%2d] %s" % (_count, text))
