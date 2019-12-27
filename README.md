@@ -62,7 +62,7 @@ Note: as the development has been done on Raspberry PI the user is hardcoded to 
 ### Installation instructions
 - download rapsbian buster, then configure and enable Wifi and ssh
 - setup your Raspberry PI and make sure it is running and reachable
-- install ansible apt install ansible
+- install ansible
   ```
   apt install ansible
   ```
