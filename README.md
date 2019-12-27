@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/stefkode/smlogger/workflows/CI/badge.svg?branch=master)](https://github.com/stefkode/smlogger/actions)
+[![Actions Status](https://github.com/stefkode/smlogger/workflows/UnitTest/badge.svg?branch=master)](https://github.com/stefkode/smlogger/actions)
 The stable code is now on the "stable" branch. Don't use the "master" branch for installation.
 
 # smlogger
