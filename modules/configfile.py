@@ -7,3 +7,6 @@ class ConfigFile:
 
     def get_value(self, key):
         return self.conf[key]
+
+    def get_dict(self):
+        return self.conf

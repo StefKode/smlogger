@@ -12,9 +12,9 @@ import json
 import sys
 import os
 
-sys.path.append("../rediscon")
-from rediscon import RedisCon
 from modules.configfile import ConfigFile
+from modules.ana_pcur import AnaPCur
+from modules.ana_ptot import AnaPTot
 
 script_d = os.path.dirname(os.path.realpath(__file__))
 os.chdir(script_d)
@@ -29,6 +29,11 @@ if 2 == len(sys.argv):
     cmd_arg = sys.argv[1]
     if cmd_arg == "-d":
         debug = True
+        mock_red = False
+
+    if cmd_arg == "-dred":
+        debug = True
+        mock_red = True
 
 #
 # open and parse configuration file
@@ -38,50 +43,19 @@ try:
     conf            = ConfigFile("smlogger.conf")
     mqtt_topic      = conf.get_value("mqtt_topic")
     redis_server    = conf.get_value("redis_server")
-    pow_current_key = conf.get_value("power_current_key")
-    pow_kwh_key     = conf.get_value("power_kwh_key")
-    pow_day_key     = conf.get_value("power_day_key")
-    ts_key          = conf.get_value("ts_key")
-    update_period   = conf.get_value("update_period")
-    kwh_period      = conf.get_value("kwh_update_period")
-    avg_window_size = conf.get_value("avg_window_size")
+    opts            = conf.get_dict()
 except Exception as e:
     print(e)
     sys.exit(1)
-
-#
-# time functions to determine update time and daily usage report
-#
-def get_ts():
-    return int(datetime.now().timestamp())
-
-
-# turns a hour + minute into a single numerical value
-# e.g. 23:30 will become the value 2330
-tzone = datetime.now().astimezone().tzinfo
-def get_day_mark():
-    h = datetime.now(tz=tzone).hour
-    m = datetime.now(tz=tzone).minute
-    marker = (h * 100) + m
-    return  marker
-
 
 #
 # print out important configuration parameters
 #
 print("---------------------------------")
 print("redis_server      = " + str(redis_server))
-print("pow_current_key   = " + str(pow_current_key))
-print("pow_day_key       = " + str(pow_day_key))
-print("pow_kwh_key       = " + str(pow_kwh_key))
-print("ts_key            = " + str(ts_key))
 print("mqtt_topic        = " + str(mqtt_topic))
-print("update_period     = " + str(update_period))
-print("kwh_update_period = " + str(kwh_update_period))
-print("avg_window_size   = " + str(avg_window_size))
 print("debug             = " + str(debug))
 print("---------------------------------")
->>>>>>> feature_kwh
 
 #
 # connect to Redis
@@ -90,6 +64,13 @@ print("---------------------------------")
 #
 print("connect Redis..")
 try:
+    if mock_red:
+        print("Import Mocked RedisCon")
+        from tests.rediscon_emu imort RedisCon
+    else:
+        sys.path.append("../rediscon")
+        from rediscon import RedisCon
+
     red = RedisCon(name="powlog", host=redis_server, log_enabled=False, trx_log=debug)
     red.setConMonInterval(5)
     red.connect()
@@ -99,38 +80,10 @@ except Exception as e:
 print("OK")
 
 #
-# these variables track the two different update moments
+# build the analysis objects
 #
-ts    = get_ts()
-last_dm = get_day_mark()
-ptot_day_start = 0
-first = True
-last_kwh_sample = 0
-last_kwh = 0
-
-#
-# windowing functions to smooth out the current power value
-# if your processing/visualization backend does smooting as well then you
-# should reduce the window size in the config file
-#
-val_window = [0] * avg_window_size
-def window_insert(v):
-    global val_window
-    size = len(val_window)
-
-    for i in range(0, size - 1):
-        val_window[i] = val_window[i + 1]
-
-    val_window[size - 1] = v
-
-
-def window_avg():
-    size = len(val_window)
-    avg  = 0
-    for i in range(0, size):
-        avg += val_window[i]
-    return int(avg / size)
-
+ana_pcur = AnaPCur(redObj = red, opts=opts, debug=debug)
+ana_ptot = AnaPCur(redObj = red, opts=opts, debug=debug)
 
 #
 # (part of mqtt callback)
@@ -138,52 +91,13 @@ def window_avg():
 # here happens the averaging and time triggered updates to redis
 #
 def update(data):
-    global ts
-    global last_dm
-    global first
-    global ptot_day_start
-
     try:
         p_cur = data['pmon']
         p_tot = data['ptot']
     except:
         return
-
-    window_insert(p_cur)
-    cur_ts = get_ts()
-    cur_dm = get_day_mark()
-
-    # on the first udate we set the total power capture of the day
-    # to the current total power counter of the smart meter
-    # Note: unless you start this program right after midnight
-    #       the total power per day is incomplete for the first day
-    if first:
-        first = False
-        ptot_day_start = p_tot
-
-    if debug:
-        print("ts=%d cur_dm=%04d last_dm=%04d p_tot=%d p_cur=%d" % 
-            (cur_ts, cur_dm, last_dm, p_tot, p_cur))
-
-    # check if we just crossed the day start (00:00) - if so, reset 
-    # the total power capture of the day
-    if cur_dm < last_dm:
-        ptot_day_start = p_tot
-    last_dm = cur_dm
-
-    # check if the update period has been passed - if so, send update
-    # and reset timestamp ts
-    if (cur_ts - ts) >= update_period:
-        red.set(pow_current_key, window_avg())
-
-        ptot_delta = p_tot - ptot_day_start
-        # convert from Wh to kWh
-        red.set(pow_day_key, float("{0:.2f}".format(ptot_delta/1000)))
-
-        # update value timestamp
-        red.set(ts_key, cur_ts)
-
-        ts = cur_ts
+    ana_pcur.update(p_cur)
+    ana_ptot.update(p_tot)
 
 
 #
