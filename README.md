@@ -68,7 +68,7 @@ Note: as the development has been done on Raspberry PI the user is hardcoded to 
 # Hardware Overview
 The following section outlines some facts of the hardware design.
 ## Schematics of IR sensor
-![Schematics Picture](schmatics/schematics.png?raw=true "IR Sensor Schematics")
+![Schematics Picture](schematics/schematics.png?raw=true "IR Sensor Schematics")
 Tuning: You should leave R1 at maximum and tune R2 to be just above the opening Vube value of the transistor. This is typically 0.7V.
 
 ## Prototype IR Sensor attached to Smart Meter
