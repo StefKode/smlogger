@@ -17,13 +17,13 @@ try:
                     opts={"power_current_key": "RED_KEY_PCUR", 
                           "avg_win_size":      10, 
                           "update_period":     30}, 
-                    name="test_ana", 
                     debug=True)
     tests.assertEqual(1,1)
 
 except Exception as e:
     tests.assertEqual(0,1, failtext=str(e))
 
+ana.print_opts()
 tests.announceTest("AnaPCur windowing function - startup")
 ana.update(5)
 ana.update(5)

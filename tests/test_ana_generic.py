@@ -8,11 +8,12 @@ red = RedisCon(name="test", host="testhost")
 
 tests.announceTest("AnaGeneric instantiation")
 try:
-    ana = TestAnaGeneric(redObj=red, opts=None, name="test_ana", debug=True)
+    ana = TestAnaGeneric(redObj=red, opts=None, debug=True)
     tests.assertEqual(1,1,"Instance OK")
 except:
     tests.assertEqual(0,1,"Instance failure")
 
+ana.print_opts()
 tests.announceTest("AnaGeneric TS")
 t1 = ana.getTS()
 time.sleep(1)

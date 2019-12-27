@@ -1,16 +1,19 @@
 from datetime import datetime
 
 class AnaGeneric():
-    def __init__(self, redObj, opts, name="unset", debug=False):
+    def __init__(self, redObj, opts, debug=False):
+        self._name  = "ana-generic"
         self._red   = redObj
         self._opts  = opts
         self._inval = None
         self._debug = debug
-        self._name  = name
         self._first = True
         self._forced_ts = None
         self._value = None
         self._init()
+
+    def _print_opts(self, hint, key, value):
+        print("[%s] Type: %-8s %-18s: %s" % (self._name, hint, key, str(value)))
 
     def _init(self):
         raise ValueError("[%-10s] ERROR! _init not defined" % self._name)

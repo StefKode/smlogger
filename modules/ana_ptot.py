@@ -4,8 +4,9 @@ from modules.ana_generic import AnaGeneric
 
 class AnaPTot(AnaGeneric):
     def _init(self):
+        self._name            = "AnaPTot"
         self._update_period   = self._opts["update_period"]
-        self._redis_key       = self._opts["power_day_key"]
+        self._red_key         = self._opts["power_day_key"]
         self._tzone           = datetime.now().astimezone().tzinfo
         self._force_dm        = None
         self._last_dm         = self._get_day_mark()
@@ -15,6 +16,9 @@ class AnaPTot(AnaGeneric):
         self._last_kwh_sample = 0
         self._last_kwh        = 0
         
+    def print_opts(self):
+        self._print_opts("timing", "update_period", self._update_period)
+        self._print_opts("redis",  "power_day_key", self._red_key)
 
     def _update(self):
         ts = self._get_ts()
@@ -32,7 +36,7 @@ class AnaPTot(AnaGeneric):
         if (ts - self._last_ts) >= self._update_period:
             pdelta = self._inval - self._day_start
             #convert wh to kwh and send to redis
-            self._red.set(self._redis_key, float("{0:.2f}".format(pdelta/1000)))
+            self._red.set(self._red_key, float("{0:.2f}".format(pdelta/1000)))
             self._value   = pdelta/1000
             self._last_ts = ts
 

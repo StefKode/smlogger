@@ -18,3 +18,6 @@ class TestAnaGeneric(AnaGeneric):
 
     def getTS(self):
         return self._get_ts()
+
+    def print_opts(self):
+        self._print_opts("info", "key", "val")

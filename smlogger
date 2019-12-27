@@ -6,9 +6,6 @@
 # License: GPLv3
 #
 
-import paho.mqtt.client as mqtt
-from   datetime import datetime
-import json
 import sys
 import os
 
@@ -25,15 +22,34 @@ print("Smart Meter Redis Logger")
 # Check for debug mode (use -d)
 #
 debug = False
+mock_mqtt = False
+mock_red = False
 if 2 == len(sys.argv):
     cmd_arg = sys.argv[1]
     if cmd_arg == "-d":
         debug = True
-        mock_red = False
 
-    if cmd_arg == "-dred":
+    if cmd_arg == "-redmock":
+        debug = True
+        red_mock = True
+
+    if cmd_arg == "-sim":
         debug = True
         mock_red = True
+        mock_mqtt = True
+
+if mock_mqtt:
+    print("WARNING: import mqtt simulation")
+    from tests.mqtt_reader_emu import mqtt_run_forever
+else:
+    from modules.mqtt_reader import mqtt_run_forever
+
+if mock_red:
+    print("WARNING: import rediscon simulation")
+    from tests.rediscon_emu import RedisCon
+else:
+    sys.path.append("../rediscon")
+    from rediscon import RedisCon
 
 #
 # open and parse configuration file
@@ -64,13 +80,6 @@ print("---------------------------------")
 #
 print("connect Redis..")
 try:
-    if mock_red:
-        print("Import Mocked RedisCon")
-        from tests.rediscon_emu import RedisCon
-    else:
-        sys.path.append("../rediscon")
-        from rediscon import RedisCon
-
     red = RedisCon(name="powlog", host=redis_server, log_enabled=False, trx_log=debug)
     red.setConMonInterval(5)
     red.connect()
@@ -83,7 +92,9 @@ print("OK")
 # build the analysis objects
 #
 ana_pcur = AnaPCur(redObj = red, opts=opts, debug=debug)
-ana_ptot = AnaPCur(redObj = red, opts=opts, debug=debug)
+ana_pcur.print_opts()
+ana_ptot = AnaPTot(redObj = red, opts=opts, debug=debug)
+ana_ptot.print_opts()
 
 #
 # (part of mqtt callback)
@@ -99,37 +110,6 @@ def update(data):
     ana_pcur.update(p_cur)
     ana_ptot.update(p_tot)
 
-
-#
-# (mqtt callback)
-# connection indicator, were we subscribe to the powlog mqtt topic
-#
-def mqtt_connect(client, userdata, flags, rc):
-    print("OK " + str(rc))
-    client.subscribe(mqtt_topic)
-
-#
-# (mqtt callback)
-# called for every message on mqtt topic
-# here we convert the json to python-dictionary
-# any conversion error leads to ignore the message
-#
-def mqtt_message(client, userdata, msg):
-    if (mqtt_topic == msg.topic):
-        try:
-            data = json.loads(msg.payload.decode("utf-8"))
-        except:
-            print("error json decode")
-            print(str(msg.payload))
-            return
-        update(data)
-
-
-print("connect MQTT..")
-client = mqtt.Client()
-client.on_connect = mqtt_connect
-client.on_message = mqtt_message
-client.connect("localhost", 1883, 60)
-client.loop_forever()
+mqtt_run_forever("localhost", mqtt_topic, update)
 
 # vim: set expandtab ts=4:

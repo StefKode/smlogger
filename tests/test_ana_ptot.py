@@ -15,13 +15,13 @@ try:
     ana = AnaPTot(redObj=red, 
                     opts={"power_day_key":   "RED_KEY_PTOT",
                           "update_period":   30}, 
-                    name="test_ana_ptot", 
                     debug=True)
     tests.assertEqual(1,1)
 
 except Exception as e:
     tests.assertEqual(0,1, failtext=str(e))
 
+ana.print_opts()
 tests.announceTest("AnaPTot - check accumulation and redis usage")
 ana.overwrite_last_dm(100)
 ana.force_dm(200)

@@ -3,12 +3,18 @@ from modules.ana_generic import AnaGeneric
 
 class AnaPCur(AnaGeneric):
     def _init(self):
+        self._name          = "AnaPCur"
         self._avg_win_size  = self._opts["avg_win_size"]
         self._update_period = self._opts["update_period"]
         self._red_key       = self._opts["power_current_key"]
         self._val_window    = [0] * self._avg_win_size
         self._last_ts       = self._get_ts()
         
+
+    def print_opts(self):
+        self._print_opts("timing", "update_period",     self._update_period)
+        self._print_opts("redis",  "power_current_key", self._red_key)
+        self._print_opts("algo",   "avg_win_size",      self._avg_win_size)
 
     def _update(self):
         self._window_insert(self._inval)
