@@ -91,7 +91,7 @@ If you would like to support this project then I suggest these tasks:
 
 | Title    | Description |
 | ------------- | ----- |
-| Adjustment-free schematics   | Select a well available and cheap NPN transistor and determine the values of R1 and R2. By this the electronics part would be much simpler imlement for users without electronics skil. |
+| Adjustment-free schematics   | Select a well available and cheap NPN transistor and determine the values of R1 and R2. By this the electronics part would be much simpler to imlement by users without electronics skill |
 | pre-built RPI image | create user-ready image for Raspberry PI |
-| Web-monitor | create a simple web monitoring app for users without a Redis-backend / infrastructure |
-| libsml pull request | clean up the implemented changes in the libsml example implementation to be accepted by the volkszahler team for a pull request. Alternative: move out the smlogger example app and ajdust the deployment scripts|
+| Web-monitor | create and add a simple web monitoring app for users without a Redis-backend / infrastructure |
+| libsml pull request | clean up the smlogger-changes in the libsml example to be accepted by the volkszahler team for a pull request. Alternative: integrate the libsml-app into this repo instead of using a modified libsml repo|
