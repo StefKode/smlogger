@@ -5,6 +5,7 @@ from modules.ana_pkwh import AnaPKwh
 from rediscon_emu  import RedisCon
 import tests
 import time
+import sys
 
 red = RedisCon(name="PKWH", host="testhost")
 red.setConMonInterval(1)
@@ -28,6 +29,7 @@ ana.forceTS(0)
 ana.update(1000)
 tests.assertEqual(red.getLastKey(), None, "redis key not set yet")
 tests.assertEqual(red.getLastVal(), None, "redis val not set yet")
+sys.exit()
 ana.forceTS(30)
 ana.update(1500)
 tests.assertEqual(red.getLastKey(), "RED_KEY_PKWH")

@@ -29,8 +29,9 @@ class AnaPKwh(AnaGeneric):
 
             #convert wh to kwh and send to redis
             self._red.set(self._red_key, float("{0:.2f}".format(pkwh)))
-            self._value   = pkwh
-            self._last_ts = ts
+            self._value    = pkwh
+            self._sumvalue = 0
+            self._last_ts  = ts
 
 
     def overwrite_last_ts(self, value):
