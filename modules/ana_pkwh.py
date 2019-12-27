@@ -23,17 +23,23 @@ class AnaPKwh(AnaGeneric):
         self._sumvalue += self._inval
         self._count    += 1
         tdelta          = ts - self._last_ts
-        print(tdelta, self._sumvalue)
 
         if tdelta >= self._update_period:
-            # compensate for sampling shifts
-            corr  = tdelta / count
-            # get power area
-            pkwh  = (self._sumvalue * corr) * tdelta / (3600 * 1000)
-            print(pkwh)
+            # compensate for sampling shifts (scaling)
+            # used to assume one power addition per second
+            corr  = tdelta / self._count
+            # get power area as a fraction of one hour
+            # Notes:
+            #  - everything is normed to 1 second
+            #  - sumvalue can be assumed to be the addition of 60 power measurements
+            #  - delta t is therefore 1s (left out of the code)
+            #  - this function reports the sum of these fragments per update_period
+            #  - as the unit is kwh we need to divide by 3600 because delta t is 1s
+            #    and divide by 1000 to get from W to kWh
+            pkwh  = (self._sumvalue * corr) / (3600 * 1000)
 
-            #convert wh to kwh and send to redis
-            self._red.set(self._red_key, float("{0:.2f}".format(pkwh)))
+            #send to redis
+            self._red.set(self._red_key, float("{0:.4f}".format(pkwh)))
             self._value    = pkwh
             self._sumvalue = 0
             self._count    = 0
