@@ -33,6 +33,9 @@ class AnaPCur(AnaGeneric):
             avg += self._val_window[i]
         return avg / size
 
+    def getValue(self):
+        return self._value
+
     def overwrite_last_ts(self, value):
         self._last_ts = value
 
