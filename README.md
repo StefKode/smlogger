@@ -8,10 +8,10 @@ Please feel free to ask questions for to provide feedback by opening a new issue
 
 # Screenshots from Domoticz
 Fine resolution power consumption at any time. In my setup I use virtual sensors in [Domoticz](https://www.domoticz.com/) which are updated with values from a Redis server.<br>
-<img src="images/pcur.png?raw=true">
+<img src="doc/pcur.png?raw=true">
 
 Accumulating power over the day.<br>
-<img src="images/ptot.png?raw=true">
+<img src="doc/ptot.png?raw=true">
 
 # Supported Environment
 The following environment has been tested:
@@ -72,8 +72,8 @@ The following section outlines some facts of the hardware design.
 Tuning: You should leave R1 at maximum and tune R2 to be just above the opening Vube value of the transistor. This is typically 0.7V.
 
 ## Prototype IR Sensor attached to Smart Meter
-<img src="images/sch.jpg?raw=true" width="300">
+<img src="doc/sch.jpg?raw=true" width="300">
 
 ## RPI-Z with Magnet-Mount
-<img src="images/rpi.jpg?raw=true" width="300">
+<img src="doc/rpi.jpg?raw=true" width="300">
 
