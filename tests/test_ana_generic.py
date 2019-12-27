@@ -8,7 +8,7 @@ red = RedisConEmu(name="test", host="testhost")
 
 tests.announceTest("AnaGeneric instantiation")
 try:
-    ana = TestAnaGeneric(redObj=red, redKey="RED_KEY", opts=None, name="test_ana", debug=True)
+    ana = TestAnaGeneric(redObj=red, opts=None, name="test_ana", debug=True)
     tests.assertEqual(1,1,"Instance OK")
 except:
     tests.assertEqual(0,1,"Instance failure")

@@ -1,9 +1,8 @@
 from datetime import datetime
 
 class AnaGeneric():
-    def __init__(self, redObj, redKey, opts, name="unset", debug=False):
+    def __init__(self, redObj, opts, name="unset", debug=False):
         self._red   = redObj
-        self._red_key = redKey
         self._opts  = opts
         self._inval = None
         self._debug = debug

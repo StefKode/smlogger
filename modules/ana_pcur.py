@@ -5,8 +5,9 @@ class AnaPCur(AnaGeneric):
     def _init(self):
         self._avg_win_size  = self._opts["avg_win_size"]
         self._update_period = self._opts["update_period"]
-        self._val_window = [0] * self._avg_win_size
-        self._last_ts = self._get_ts()
+        self._red_key       = self._opts["power_current_key"]
+        self._val_window    = [0] * self._avg_win_size
+        self._last_ts       = self._get_ts()
         
 
     def _update(self):

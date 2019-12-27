@@ -14,8 +14,9 @@ red.connect()
 tests.announceTest("AnaPCur instantiation")
 try:
     ana = AnaPCur(redObj=red, 
-                    redKey="RED_KEY_PCUR", 
-                    opts={"avg_win_size": 10, "update_period": 30}, 
+                    opts={"power_current_key": "RED_KEY_PCUR", 
+                          "avg_win_size":      10, 
+                          "update_period":     30}, 
                     name="test_ana", 
                     debug=True)
     tests.assertEqual(1,1)
