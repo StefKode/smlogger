@@ -13,8 +13,6 @@ class AnaPTot(AnaGeneric):
         self._last_ts         = self._get_ts()
         self._value           = None
         self._day_start       = None
-        self._last_kwh_sample = 0
-        self._last_kwh        = 0
         
     def print_opts(self):
         self._print_opts("timing", "update_period", self._update_period)
