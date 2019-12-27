@@ -1,37 +1,5 @@
-EESchema Schematic File Version 2
-LIBS:power
-LIBS:device
-LIBS:switches
-LIBS:relays
-LIBS:motors
-LIBS:transistors
-LIBS:conn
-LIBS:linear
-LIBS:regul
-LIBS:74xx
-LIBS:cmos4000
-LIBS:adc-dac
-LIBS:memory
-LIBS:xilinx
-LIBS:microcontrollers
-LIBS:dsp
-LIBS:microchip
-LIBS:analog_switches
-LIBS:motorola
-LIBS:texas
-LIBS:intel
-LIBS:audio
-LIBS:interface
-LIBS:digital-audio
-LIBS:philips
-LIBS:display
-LIBS:cypress
-LIBS:siliconi
-LIBS:opto
-LIBS:atmel
-LIBS:contrib
-LIBS:valves
-EELAYER 25 0
+EESchema Schematic File Version 4
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -114,34 +82,23 @@ $EndComp
 $Comp
 L R R5
 U 1 1 5DDDA555
-P 5350 2350
-F 0 "R5" V 5430 2350 50  0000 C CNN
-F 1 "2.2k" V 5350 2350 50  0000 C CNN
-F 2 "" V 5280 2350 50  0001 C CNN
-F 3 "" H 5350 2350 50  0001 C CNN
-	1    5350 2350
-	0    1    1    0   
-$EndComp
-$Comp
-L R R6
-U 1 1 5DDDA8B2
-P 5650 2600
-F 0 "R6" V 5730 2600 50  0000 C CNN
-F 1 "1k" V 5650 2600 50  0000 C CNN
-F 2 "" V 5580 2600 50  0001 C CNN
-F 3 "" H 5650 2600 50  0001 C CNN
-	1    5650 2600
-	1    0    0    -1  
+P 5550 2550
+F 0 "R5" V 5630 2550 50  0000 C CNN
+F 1 "2.2k" V 5550 2550 50  0000 C CNN
+F 2 "" V 5480 2550 50  0001 C CNN
+F 3 "" H 5550 2550 50  0001 C CNN
+	1    5550 2550
+	0    -1   -1   0   
 $EndComp
 $Comp
 L R R7
 U 1 1 5DDDACA1
-P 6000 2600
-F 0 "R7" V 6080 2600 50  0000 C CNN
-F 1 "1k" V 6000 2600 50  0000 C CNN
-F 2 "" V 5930 2600 50  0001 C CNN
-F 3 "" H 6000 2600 50  0001 C CNN
-	1    6000 2600
+P 5400 2950
+F 0 "R7" V 5480 2950 50  0000 C CNN
+F 1 "1k" V 5400 2950 50  0000 C CNN
+F 2 "" V 5330 2950 50  0001 C CNN
+F 3 "" H 5400 2950 50  0001 C CNN
+	1    5400 2950
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -156,21 +113,21 @@ F 3 "" H 4600 2900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3600 2250 3600 2750
+	3600 2250 3600 2600
 Wire Wire Line
-	5050 2250 5050 2400
+	5050 2250 5050 2350
 Wire Wire Line
-	4600 2350 4600 2800
+	4600 2350 4600 2600
 Connection ~ 4600 2600
 Wire Wire Line
-	4200 2250 4200 2400
+	4200 2250 4200 2350
 Wire Wire Line
 	4600 2600 4750 2600
 Wire Wire Line
 	4600 2350 4200 2350
 Connection ~ 4200 2350
 Wire Wire Line
-	3200 3150 6150 3150
+	3200 3150 3600 3150
 Wire Wire Line
 	4200 3150 4200 2800
 Wire Wire Line
@@ -179,10 +136,10 @@ Wire Wire Line
 	5050 3150 5050 2800
 Connection ~ 4600 3150
 Wire Wire Line
-	3200 2600 3900 2600
+	3200 2600 3600 2600
 Connection ~ 3600 2600
 Wire Wire Line
-	3600 1850 6150 1850
+	3600 1850 4200 1850
 Wire Wire Line
 	4200 1850 4200 1950
 Wire Wire Line
@@ -201,28 +158,12 @@ F 3 "" H 3150 2950 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3200 2600 3200 2750
-Wire Wire Line
-	5200 2350 5050 2350
 Connection ~ 5050 2350
-Wire Wire Line
-	5500 2350 5650 2350
-Wire Wire Line
-	5650 2350 5650 2450
-Wire Wire Line
-	5650 2750 5650 2850
-Wire Wire Line
-	5650 2850 6000 2850
-Wire Wire Line
-	6000 2850 6000 2750
-Wire Wire Line
-	6000 2450 6000 2350
-Text GLabel 6150 2350 2    60   Output ~ 0
+Text GLabel 5800 2350 2    60   Output ~ 0
 RPI-Z_GPIO_RX
-Wire Wire Line
-	6000 2350 6150 2350
-Text GLabel 6150 3150 2    60   UnSpc ~ 0
+Text GLabel 5800 3150 2    60   UnSpc ~ 0
 RPI-Z_GND
-Text GLabel 6150 1850 2    60   UnSpc ~ 0
+Text GLabel 5800 1850 2    60   UnSpc ~ 0
 RPI-Z_5V
 Wire Wire Line
 	3600 1850 3600 1950
@@ -234,6 +175,55 @@ Connection ~ 4200 3150
 Connection ~ 3600 3150
 Connection ~ 5050 3150
 Connection ~ 5050 1850
-Text Notes 5550 2200 0    60   ~ 0
+Text Notes 5250 2250 0    60   ~ 0
 Output does not exceed 3.3V
+Wire Wire Line
+	4600 2600 4600 2800
+Wire Wire Line
+	4200 2350 4200 2400
+Wire Wire Line
+	4600 3150 5050 3150
+Wire Wire Line
+	3600 2600 3600 2750
+Wire Wire Line
+	3600 2600 3900 2600
+Wire Wire Line
+	4200 1850 5050 1850
+Wire Wire Line
+	5050 2350 5050 2400
+Wire Wire Line
+	4200 3150 4600 3150
+Wire Wire Line
+	3600 3150 4200 3150
+Wire Wire Line
+	5050 1850 6150 1850
+$Comp
+L R R6
+U 1 1 5DDDA8B2
+P 5550 2700
+F 0 "R6" V 5630 2700 50  0000 C CNN
+F 1 "1k" V 5550 2700 50  0000 C CNN
+F 2 "" V 5480 2700 50  0001 C CNN
+F 3 "" H 5550 2700 50  0001 C CNN
+	1    5550 2700
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5050 2350 5400 2350
+Wire Wire Line
+	5050 3150 5400 3150
+Wire Wire Line
+	5400 2550 5400 2350
+Connection ~ 5400 2350
+Wire Wire Line
+	5400 2350 6150 2350
+Wire Wire Line
+	5700 2550 5700 2700
+Wire Wire Line
+	5400 2700 5400 2800
+Wire Wire Line
+	5400 3100 5400 3150
+Connection ~ 5400 3150
+Wire Wire Line
+	5400 3150 6150 3150
 $EndSCHEMATC
