@@ -66,7 +66,7 @@ print("connect Redis..")
 try:
     if mock_red:
         print("Import Mocked RedisCon")
-        from tests.rediscon_emu imort RedisCon
+        from tests.rediscon_emu import RedisCon
     else:
         sys.path.append("../rediscon")
         from rediscon import RedisCon
