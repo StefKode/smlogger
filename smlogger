@@ -12,6 +12,7 @@ import os
 from modules.configfile import ConfigFile
 from modules.ana_pcur import AnaPCur
 from modules.ana_ptot import AnaPTot
+from modules.ana_pkwh import AnaPKwh
 
 script_d = os.path.dirname(os.path.realpath(__file__))
 os.chdir(script_d)
@@ -113,7 +114,7 @@ def update(data):
     ana_ptot.update(p_tot)
 
     # here we use the smoothed value from pcur
-    ana_pkwh.update(ana_pcur.getValue)
+    ana_pkwh.update(ana_pcur.getValue())
 
 mqtt_run_forever("localhost", mqtt_topic, update)
 

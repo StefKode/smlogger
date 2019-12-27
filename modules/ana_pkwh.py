@@ -8,8 +8,7 @@ class AnaPKwh(AnaGeneric):
         self._update_period   = self._opts["kwh_period"]
         self._red_key         = self._opts["power_kwh_key"]
         self._tzone           = datetime.now().astimezone().tzinfo
-        self._last_report_ts  = self._get_ts()
-        self._last_measure_ts = self._last_report_ts
+        self._last_ts         = self._get_ts()
         self._value           = 0
         self._sumvalue        = 0
         
