@@ -25,7 +25,7 @@ The following environment has been tested:
 
 # Software Overview
 The software consists of the following components:
-- Forked libsml from Volkszaehler (https://github.com/volkszaehler/libsml)
+- Forked libsml from Volkszaehler (https://github.com/StefKode/libsml/tree/stable)
 - smlogger application
 - ansible remote deploymnent
 - redis connection manager (https://github.com/StefKode/rediscon)
