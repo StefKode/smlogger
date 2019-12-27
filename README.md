@@ -62,7 +62,14 @@ Note: as the development has been done on Raspberry PI the user is hardcoded to 
 ### Installation instructions
 - download rapsbian buster, then configure and enable Wifi and ssh
 - setup your Raspberry PI and make sure it is running and reachable
+- install ansible apt install ansible
+  ```
+  apt install ansible
+  ```
 - clone this repository
+  ```
+  git clone https://github.com/StefKode/smlogger
+  ```
 - in directory *deployment* create *config.yml* based on the example file *config.yml-example* and apply changes as needed
 - copy the file *smlogger.conf-example* to *smlogger.conf* and apply all settings
 - cd into *deployment*
