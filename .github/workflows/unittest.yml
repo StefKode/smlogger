@@ -13,4 +13,9 @@ jobs:
       run: |
         sudo apt-get install -y sendxmpp
         cd tests
-        make | sendxmpp -u ${{ secrets.XMPPU }} -j ${{ secrets.XMPPD }}  -t -a /etc/ssl/certs/ -p ${{ secrets.XMPPPW }} ${{ secrets.XMPPREC }} 
+        make 2&1 > /tmp/makelog
+        if [ $? -eq 0 ]; then
+                date > /tmp/makelog
+                echo "Test PASS" >> /tmp/makelog
+        fi
+        cat /tmp/makelog | sendxmpp -u ${{ secrets.XMPPU }} -j ${{ secrets.XMPPD }}  -t -a /etc/ssl/certs/ -p ${{ secrets.XMPPPW }} ${{ secrets.XMPPREC }} 
