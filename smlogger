@@ -95,6 +95,8 @@ ana_pcur = AnaPCur(redObj = red, opts=opts, debug=debug)
 ana_pcur.print_opts()
 ana_ptot = AnaPTot(redObj = red, opts=opts, debug=debug)
 ana_ptot.print_opts()
+ana_pkwh = AnaPKwh(redObj = red, opts=opts, debug=debug)
+ana_pkwh.print_opts()
 
 #
 # (part of mqtt callback)
@@ -109,6 +111,9 @@ def update(data):
         return
     ana_pcur.update(p_cur)
     ana_ptot.update(p_tot)
+
+    # here we use the smoothed value from pcur
+    ana_pkwh.update(ana_pcur.getValue)
 
 mqtt_run_forever("localhost", mqtt_topic, update)
 

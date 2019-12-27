@@ -1,5 +1,5 @@
 
-test:	generic pcur ptot
+test:	generic pcur ptot pkwh
 
 generic:
 	@echo "----------------"
@@ -15,3 +15,8 @@ ptot:
 	@echo "----------------"
 	@date
 	@python3 test_ana_ptot.py
+
+pkwh:
+	@echo "----------------"
+	@date
+	@python3 test_ana_pkwh.py
