@@ -13,7 +13,7 @@ jobs:
       run: |
         sudo apt-get install -y sendxmpp
         cd tests
-        make 2&1 > /tmp/makelog
+        make 2>&1 > /tmp/makelog
         if [ $? -eq 0 ]; then
                 date > /tmp/makelog
                 echo "Test PASS" >> /tmp/makelog
