@@ -6,6 +6,9 @@ Smart Meter SML Logger is an application to read Smart Meter Language (SML) from
 
 Please feel free to ask questions for to provide feedback by opening a new issue or by commenting an existing one.
 
+## Overview Diagram
+<img src="doc/smlogger.png?raw=true">
+
 # Screenshots from Domoticz
 Fine resolution power consumption at any time. In my setup I use virtual sensors in [Domoticz](https://www.domoticz.com/) which are updated with values from a Redis server.<br>
 <img src="doc/pcur.png?raw=true">
