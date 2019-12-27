@@ -9,10 +9,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Run a multi-line script
+    - name: Perform Unit Tests
       run: |
-        sudo apt-get install -y aha python3-colorama
+        sudo apt-get install -y sendxmpp
         cd tests
-        make 2>&1 | aha > /tmp/testlog.html
-        curl --request POST --url https://api.sendgrid.com/v3/mail/send --header 'authorization: Bearer SG.4-XDn2yYTIyTnXkX1lMDEQ.jzQ4zVgHWZ1zoIuHXkpm-pXTqMnkNLEL7IMkTyaAoLE' --header 'content-type: application/json'--data '{"personalizations":[{"to":[{"email":"s-koch@posteo.de","name":"Stefan Koch"}],"subject":"SMLogger Unit Test Report"}],"content": [{"type": "text/html", "value": "$(cat /tmp/testlog.html)"}],"from":{"email":"s-koch@posteo.de","name":"Stefans GitHubAction"},"reply_to":{"email":"s-koch@posteo.de","name":"Stefan Koch"}}'
-        
+        make | sendxmpp -u ${{ secrets.XMPPU }} -j ${{ secrets.XMPPD }}  -t -a /etc/ssl/certs/ -p ${{ secrets.XMPPPW }} ${{ secrets.XMPPREC }} 

@@ -1,0 +1,39 @@
+
+from modules.ana_generic import AnaGeneric
+
+class AnaPCur(AnaGeneric):
+    def _init(self):
+        self._avg_win_size  = self._opts["avg_win_size"]
+        self._update_period = self._opts["update_period"]
+        self._val_window = [0] * self._avg_win_size
+        self._last_ts = self._get_ts()
+        self._value = None
+        
+
+    def _update(self):
+        self._window_insert(self._inval)
+        self._value = self._window_avg()
+        ts = self._get_ts()
+        if (ts - self._last_ts) >= self._update_period:
+            self._red.set(self._red_key, self._value)
+            self._last_ts = ts
+
+
+    def _window_insert(self, v):
+        size = self._avg_win_size
+        for i in range(0, size - 1):
+            self._val_window[i] = self._val_window[i + 1]
+        self._val_window[size - 1] = v
+
+
+    def _window_avg(self):
+        size = self._avg_win_size
+        avg  = 0
+        for i in range(0, size):
+            avg += self._val_window[i]
+        return avg / size
+
+    def overwrite_last_ts(self, value):
+        self._last_ts = value
+
+# vim: set expandtab ts=4:

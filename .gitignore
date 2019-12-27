@@ -4,3 +4,5 @@ hosts
 smlogger.conf
 __pycache__
 *.retry
+venv
+.bold-output
