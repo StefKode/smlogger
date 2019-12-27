@@ -11,6 +11,7 @@ class AnaPKwh(AnaGeneric):
         self._last_ts         = self._get_ts()
         self._value           = 0
         self._sumvalue        = 0
+        self._count           = 0
         
     def print_opts(self):
         self._print_opts("timing", "kwh_period", self._update_period)
@@ -20,17 +21,22 @@ class AnaPKwh(AnaGeneric):
         ts = self._get_ts()
 
         self._sumvalue += self._inval
-        tdelta = ts - self._last_ts
+        self._count    += 1
+        tdelta          = ts - self._last_ts
         print(tdelta, self._sumvalue)
 
         if tdelta >= self._update_period:
-            pkwh  = (self._sumvalue * tdelta) / (60 * 60 * 1000)
+            # compensate for sampling shifts
+            corr  = tdelta / count
+            # get power area
+            pkwh  = (self._sumvalue * corr) * tdelta / (3600 * 1000)
             print(pkwh)
 
             #convert wh to kwh and send to redis
             self._red.set(self._red_key, float("{0:.2f}".format(pkwh)))
             self._value    = pkwh
             self._sumvalue = 0
+            self._count    = 0
             self._last_ts  = ts
 
 
