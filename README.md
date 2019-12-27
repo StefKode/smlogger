@@ -1,5 +1,4 @@
 [![Actions Status](https://github.com/stefkode/smlogger/workflows/UnitTest/badge.svg?branch=master)](https://github.com/stefkode/smlogger/actions)
-The stable code is now on the "stable" branch. Don't use the "master" branch for installation.
 
 # smlogger
 Smart Meter SML Logger is an application to read Smart Meter Language (SML) from a serial port and log the measurements to a Redis Server for further processing.
@@ -87,3 +86,12 @@ Tuning: You should leave R1 at maximum and tune R2 to be just above the opening 
 ## RPI-Z with Magnet-Mount
 <img src="doc/rpi.jpg?raw=true" width="300">
 
+# Support this project
+If you would like to support this project then I suggest these tasks:
+
+| Title    | Description |
+| ------------- | ----- |
+| Adjustment-free schematics   | Select a well available and cheap NPN transistor and determine the values of R1 and R2. By this the electronics part would be much simpler imlement for users without electronics skil. |
+| pre-built RPI image | create user-ready image for Raspberry PI |
+| Web-monitor | create a simple web monitoring app for users without a Redis-backend / infrastructure |
+| libsml pull request | clean up the implemented changes in the libsml example implementation to be accepted by the volkszahler team for a pull request. Alternative: move out the smlogger example app and ajdust the deployment scripts|
