@@ -43,7 +43,7 @@ This is a python script which subscribes to the mqtt messages from libsml. It do
 | ts_key | PowerTS | redis key to store capture time stamp |
 | mqtt_topic | powlog | this is the topic to which libsml logs the data, this should not be changed |
 | update_period | 30 | time interval in seconds at which redis values are updated (must be > 4s) |
-| avg_window_size | 5 | size of the sliding average window |
+| avg_win_size | 5 | size of the sliding average window |
 
 ## Install using ansible deployment
 The complete system configuration and the application deployment and configuration is performed using ansible. Make sure ansible has been installed (apt-get install ansible). The ánsible playbook uses a configuration file *config.yml*:

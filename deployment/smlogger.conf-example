@@ -5,5 +5,5 @@
 	"ts_key":            "redis key",
 	"mqtt_topic":        "powlog",
 	"update_period":     30,
-	"avg_window_size":   5
+	"avg_win_size":   5
 }
