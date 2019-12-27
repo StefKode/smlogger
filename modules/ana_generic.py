@@ -10,6 +10,7 @@ class AnaGeneric():
         self._name  = name
         self._first = True
         self._forced_ts = None
+        self._value = None
         self._init()
 
     def _init(self):
@@ -25,6 +26,9 @@ class AnaGeneric():
 
     def forceTS(self, value):
         self._forced_ts = value
+
+    def getValue(self):
+        return self._value
 
     def _get_ts(self):
         if self._forced_ts is None:

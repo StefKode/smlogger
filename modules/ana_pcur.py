@@ -7,7 +7,6 @@ class AnaPCur(AnaGeneric):
         self._update_period = self._opts["update_period"]
         self._val_window = [0] * self._avg_win_size
         self._last_ts = self._get_ts()
-        self._value = None
         
 
     def _update(self):
