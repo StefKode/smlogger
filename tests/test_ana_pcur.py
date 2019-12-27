@@ -3,11 +3,11 @@ import sys
 sys.path.append("..")
 
 from modules.ana_pcur import AnaPCur
-from rediscon_emu  import RedisConEmu
+from rediscon_emu  import RedisCon
 import tests
 import time
 
-red = RedisConEmu(name="PCUR", host="testhost")
+red = RedisCon(name="PCUR", host="testhost")
 red.setConMonInterval(1)
 red.connect()
 

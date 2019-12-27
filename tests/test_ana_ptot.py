@@ -2,11 +2,11 @@ import sys
 sys.path.append("..")
 
 from modules.ana_ptot import AnaPTot
-from rediscon_emu  import RedisConEmu
+from rediscon_emu  import RedisCon
 import tests
 import time
 
-red = RedisConEmu(name="PTOT", host="testhost")
+red = RedisCon(name="PTOT", host="testhost")
 red.setConMonInterval(1)
 red.connect()
 

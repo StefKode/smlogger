@@ -1,5 +1,5 @@
 
-class RedisConEmu():
+class RedisCon():
     def __init__(self, name="not-set", host=None, port=6379, db=0, log_enabled=False, trx_log=False):
         self.name = name
         self.host = host

@@ -1,10 +1,10 @@
 
 from wrap_ana_generic import TestAnaGeneric
-from rediscon_emu  import RedisConEmu
+from rediscon_emu  import RedisCon
 import tests
 import time
 
-red = RedisConEmu(name="test", host="testhost")
+red = RedisCon(name="test", host="testhost")
 
 tests.announceTest("AnaGeneric instantiation")
 try:
