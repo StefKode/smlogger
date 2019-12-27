@@ -234,4 +234,6 @@ Connection ~ 4200 3150
 Connection ~ 3600 3150
 Connection ~ 5050 3150
 Connection ~ 5050 1850
+Text Notes 5550 2200 0    60   ~ 0
+Output does not exceed 3.3V
 $EndSCHEMATC

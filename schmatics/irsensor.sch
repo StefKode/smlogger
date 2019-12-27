@@ -31,6 +31,7 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
+LIBS:irsensor-cache
 EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
@@ -182,7 +183,7 @@ Wire Wire Line
 	3200 2600 3900 2600
 Connection ~ 3600 2600
 Wire Wire Line
-	3600 1850 6150 1850
+	4050 1850 6150 1850
 Wire Wire Line
 	4200 1850 4200 1950
 Wire Wire Line
@@ -236,4 +237,17 @@ Connection ~ 5050 3150
 Connection ~ 5050 1850
 Text Notes 5550 2200 0    60   ~ 0
 Output does not exceed 3.3V
+$Comp
+L R R8
+U 1 1 5E05F263
+P 3900 1850
+F 0 "R8" V 3980 1850 50  0000 C CNN
+F 1 "1k" V 3900 1850 50  0000 C CNN
+F 2 "" V 3830 1850 50  0001 C CNN
+F 3 "" H 3900 1850 50  0001 C CNN
+	1    3900 1850
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3600 1850 3750 1850
 $EndSCHEMATC
