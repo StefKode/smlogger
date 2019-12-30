@@ -102,105 +102,10 @@ Now lets add a new column based on day of year and check
 ```python
 dfbnd['Day'] = dfbnd.index.dayofyear
 dfbnd['Time'] = pd.to_datetime(dfbnd.index).time
-dfbnd.head(10)
 ```
 
 
 
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Power</th>
-      <th>Day</th>
-      <th>Time</th>
-    </tr>
-    <tr>
-      <th>TS</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2019-12-27 19:45:00</th>
-      <td>0.0287</td>
-      <td>361</td>
-      <td>19:45:00</td>
-    </tr>
-    <tr>
-      <th>2019-12-27 19:55:00</th>
-      <td>0.0332</td>
-      <td>361</td>
-      <td>19:55:00</td>
-    </tr>
-    <tr>
-      <th>2019-12-27 20:00:00</th>
-      <td>0.0335</td>
-      <td>361</td>
-      <td>20:00:00</td>
-    </tr>
-    <tr>
-      <th>2019-12-27 20:05:00</th>
-      <td>0.0332</td>
-      <td>361</td>
-      <td>20:05:00</td>
-    </tr>
-    <tr>
-      <th>2019-12-27 20:10:00</th>
-      <td>0.0339</td>
-      <td>361</td>
-      <td>20:10:00</td>
-    </tr>
-    <tr>
-      <th>2019-12-27 20:15:00</th>
-      <td>0.0344</td>
-      <td>361</td>
-      <td>20:15:00</td>
-    </tr>
-    <tr>
-      <th>2019-12-27 20:20:00</th>
-      <td>0.0611</td>
-      <td>361</td>
-      <td>20:20:00</td>
-    </tr>
-    <tr>
-      <th>2019-12-27 20:25:00</th>
-      <td>0.0764</td>
-      <td>361</td>
-      <td>20:25:00</td>
-    </tr>
-    <tr>
-      <th>2019-12-27 20:30:00</th>
-      <td>0.0788</td>
-      <td>361</td>
-      <td>20:30:00</td>
-    </tr>
-    <tr>
-      <th>2019-12-27 20:35:00</th>
-      <td>0.0304</td>
-      <td>361</td>
-      <td>20:35:00</td>
-    </tr>
-  </tbody>
-</table>
-</div>
 
 
 
