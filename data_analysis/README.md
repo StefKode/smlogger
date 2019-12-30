@@ -36,7 +36,7 @@ db = psycopg2.connect(user=cfg['user'], password=cfg['password'],
 
 # Get Data from DB
 
-### Create out dataframe
+### Create our dataframe
 
 
 ```python
@@ -82,39 +82,11 @@ dfbnd.dropna(inplace=True)
 nafter = dfbnd.shape[0]
 print("Stripped %d rows" % (npre-nafter))
 
-# check the table
-print(dfbnd.head(10))
-```
-
-    Stripped 9 rows
-                          Power
-    TS                         
-    2019-12-27 19:45:00  0.0287
-    2019-12-27 19:55:00  0.0332
-    2019-12-27 20:00:00  0.0335
-    2019-12-27 20:05:00  0.0332
-    2019-12-27 20:10:00  0.0339
-    2019-12-27 20:15:00  0.0344
-    2019-12-27 20:20:00  0.0611
-    2019-12-27 20:25:00  0.0764
-    2019-12-27 20:30:00  0.0788
-    2019-12-27 20:35:00  0.0304
-
-
 # Get a quick visualization on linear time scale
-
 
 ```python
 dfbnd.plot.area(figsize=(25,5), color='#4444dd')
 ```
-
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x7feb2b972ef0>
-
-
-
 
 ![png](output_16_1.png)
 
