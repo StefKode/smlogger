@@ -1,10 +1,12 @@
 [![Actions Status](https://github.com/stefkode/smlogger/workflows/UnitTest/badge.svg?branch=master)](https://github.com/stefkode/smlogger/actions)
-The stable code is now on the "stable" branch. Don't use the "master" branch for installation.
 
 # smlogger
 Smart Meter SML Logger is an application to read Smart Meter Language (SML) from a serial port and log the measurements to a Redis Server for further processing.
 
 Please feel free to ask questions for to provide feedback by opening a new issue or by commenting an existing one.
+
+## Overview Diagram
+<img src="doc/smlogger.png?raw=true">
 
 # Screenshots from Domoticz
 Fine resolution power consumption at any time. In my setup I use virtual sensors in [Domoticz](https://www.domoticz.com/) which are updated with values from a Redis server.<br>
@@ -22,7 +24,7 @@ The following environment has been tested:
 
 # Software Overview
 The software consists of the following components:
-- Forked libsml from Volkszaehler (https://github.com/volkszaehler/libsml)
+- Forked libsml from Volkszaehler (https://github.com/StefKode/libsml/tree/stable)
 - smlogger application
 - ansible remote deploymnent
 - redis connection manager (https://github.com/StefKode/rediscon)
@@ -59,7 +61,14 @@ Note: as the development has been done on Raspberry PI the user is hardcoded to 
 ### Installation instructions
 - download rapsbian buster, then configure and enable Wifi and ssh
 - setup your Raspberry PI and make sure it is running and reachable
+- install ansible
+  ```
+  apt install ansible
+  ```
 - clone this repository
+  ```
+  git clone https://github.com/StefKode/smlogger
+  ```
 - in directory *deployment* create *config.yml* based on the example file *config.yml-example* and apply changes as needed
 - copy the file *smlogger.conf-example* to *smlogger.conf* and apply all settings
 - cd into *deployment*
@@ -77,3 +86,12 @@ Tuning: You should leave R1 at maximum and tune R2 to be just above the opening 
 ## RPI-Z with Magnet-Mount
 <img src="doc/rpi.jpg?raw=true" width="300">
 
+# Support this project
+If you would like to support this project then I suggest these tasks:
+
+| Title    | Description |
+| ------------- | ----- |
+| Adjustment-free schematics   | Select a well available and cheap NPN transistor and determine the values of R1 and R2. By this the electronics part would be much simpler to imlement by users without electronics skill |
+| pre-built RPI image | create user-ready image for Raspberry PI |
+| Web-monitor | create and add a simple web monitoring app for users without a Redis-backend / infrastructure |
+| libsml pull request | clean up the smlogger-changes in the libsml example to be accepted by the volkszahler team for a pull request. Alternative: integrate the libsml-app into this repo instead of using a modified libsml repo|
